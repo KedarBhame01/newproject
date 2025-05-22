@@ -48,22 +48,43 @@ class access_user(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     
-    def list(self,request):
+    def list(self, request):
         try:
             admin = User.objects.all()
             serializer = self.get_serializer(admin,many=true)
             api_response = {
-                                        'status': 'success',
-                                        'code': status.HTTP_200_OK,
-                                        'message': 'All admins',
-                                        'all_admins': serializer.data,
+                                'status': 'success',
+                                'code': status.HTTP_200_OK,
+                                'message': 'All admins',
+                                'all_admins': serializer.data,
             }
             return Response(api_response)
         except Exception as e:
             error_msg = 'An error occurred while fetching ecords: '
             error_response = {
-                                        'status': 'error',
-                                        'code': status.HTTP_500_INTERNAL_SERVER_ERROR,
-                                        'message': error_msg,
+                                'status': 'error',
+                                'code': status.HTTP_500_INTERNAL_SERVER_ERROR,
+                                'message': error_msg,
             }
+            return Response(error_response)
+
+    def create(self, request):
+        try:
+            serializer = self.get_serializer(data=request.data)        
+            serializer.is_valid(raise_exception = True)
+            serializer.save()
+            api_response = {
+                'status': 'success',
+                'code': status.Http_201_CREATED,
+                'message': 'Admin added successfully',
+                'new_admin':serializer.data,
+            }
+            return Response(api_response)
+        except Exception as e:
+            error_msg = 'An error occured:'
+            error_response={
+                'status': 'error',
+                'code': status.HTTP_400_BAD_REQUEST,
+                'message': error_msg
+            }    
             return Response(error_response)
