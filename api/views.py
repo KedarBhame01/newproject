@@ -91,6 +91,28 @@ class access_user(ModelViewSet):
             }    
             return Response(error_response)
     
+    def update(self, request,pk=None):
+        try:
+            instance = self.get_object()
+            serializer = self.get_serializer(instance,data=request.data)        
+            serializer.is_valid(raise_exception = True)
+            serializer.save()
+            api_response = {
+                'status': 'success',
+                'code': status.Http_201_CREATED,
+                'message': 'Admin updated successfully',
+                'new_admin':serializer.data,
+            }
+            return Response(api_response)
+        except Exception as e:
+            error_msg = 'An error occured:'
+            error_response={
+                'status': 'error',
+                'code': status.HTTP_400_BAD_REQUEST,
+                'message': error_msg
+            }    
+            return Response(error_response)    
+    
 def destroy(self, request):
     try:
         instance = self.get_object()  # No need to pass 'pk' explicitly
