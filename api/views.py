@@ -46,12 +46,14 @@ from .serializer import UserSerializer
 #         return Response(status=status.HTTP_204_NO_CONTENT)
 class access_user(ModelViewSet):
     queryset = User.objects.all()
+    # print(queryset)
     serializer_class = UserSerializer
     
     def list(self, request):
         try:
             admin = User.objects.all()
-            serializer = self.get_serializer(admin,many=true)
+            # print(admin)
+            serializer = self.get_serializer(admin,many=True)
             api_response = {
                                 'status': 'success',
                                 'code': status.HTTP_200_OK,
@@ -88,3 +90,29 @@ class access_user(ModelViewSet):
                 'message': error_msg
             }    
             return Response(error_response)
+    
+def destroy(self, request):
+    try:
+        instance = self.get_object()  # No need to pass 'pk' explicitly
+        instance.delete()
+        api_response = {
+                    'status': 'success',
+                    'code': status.HTTP_204_NO_CONTENT,
+                    'message': 'Admin deleted successfully'
+            }
+        return Response(api_response, status=status.HTTP_204_NO_CONTENT)
+    except User.DoesNotExist:
+        error_response = {
+            'status': 'error',
+            'code': status.HTTP_404_NOT_FOUND,
+            'message': 'User not found'
+        }
+        return Response(error_response, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        error_msg = 'An error occurred: {}'.format(str(e))
+        error_response = {
+            'status': 'error',
+            'code': status.HTTP_400_BAD_REQUEST,
+            'message': error_msg,
+        }
+        return Response(error_response, status=status.HTTP_400_BAD_REQUEST)
