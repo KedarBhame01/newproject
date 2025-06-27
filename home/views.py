@@ -32,18 +32,18 @@ class StudentApi(APIView):
                 'status': 'False',
                 'data': serializer.errors
             })
-class LoginAPIView(APIView):
-    def post(self, request):
-        user_object = authenticate(username = username, password = password)
-        if user_obj:
-            token, _=Token.objects.get_or_create(user=user_obj)
-            print(token)
-            return Response({
-                'status': 'True',
-                "data":{'token':''}
-            })
-            return Response({
-                "status": False,
-                'data':(),
-                'message': 'Invalid credentials'
-            })
+# class LoginAPIView(APIView):
+#     def post(self, request):
+#         user_object = authenticate(username = username, password = password)
+#         if user_obj:
+#             token, _=Token.objects.get_or_create(user=user_obj)
+#             print(token)
+#             return Response({
+#                 'status': 'True',
+#                 "data":{'token':''}
+#             })
+#             return Response({
+#                 "status": False,
+#                 'data':(),
+#                 'message': 'Invalid credentials'
+#             })

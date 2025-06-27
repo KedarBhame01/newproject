@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-+ah4$meng@633t25)b4%h^@_&w8govxietr%!xe-6ves^rs170
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS =  ['*'] 
 
 # Application definition
 
@@ -40,6 +39,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'home',
+    # 'e978-43-241-27-215.ngrok-free.app',
 ]
 
 MIDDLEWARE = [
